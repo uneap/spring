@@ -3,7 +3,9 @@ package hello.core.scope;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import hello.core.scope.SingletonWithPrototypeTest1.PrototypeBean;
+import javax.inject.Provider;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -27,10 +29,10 @@ public class PrototypeProviderTest {
 
     static class ClientBean {
         @Autowired
-        private ApplicationContext ac;
+        private Provider<PrototypeBean> prototypeBeanObjectProvider;
 
         public int logic() {
-            PrototypeBean prototypeBean = ac.getBean(PrototypeBean.class);
+            PrototypeBean prototypeBean = prototypeBeanObjectProvider.get();
             prototypeBean.addCount();
             int count = prototypeBean.getCount();
             return count;
